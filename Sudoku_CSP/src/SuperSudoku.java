@@ -7,21 +7,27 @@ import java.util.ArrayList;
 
 public class SuperSudoku {
 	public File sudokuPuzzle;
-	public static Cell[][] sudokuCell = new Cell[16][16];
-	public static Cell currentCell;
+	public Cell[][] sudokuCell;
+	public static ArrayList<Character> domainOfValues;
 	
-	public SuperSudoku (File puzzle){
+	public SuperSudoku (File puzzle, Cell[][] sudokuCell) throws IOException{
 		this.sudokuPuzzle = puzzle;
+		this.sudokuCell = sudokuCell;
+		domainOfValues = initializeGrid();
 	}
 	
-	
-	public void initializeGrid() throws IOException {
+	/**
+	 * Reads in a file containing a text representation of a 16x16 sudoku grid
+	 * Initializes each cell in the grid to the corresponding file text value
+	 * @throws IOException
+	 */
+	private ArrayList<Character> initializeGrid() throws IOException {
 		int groupNumber = 1;
 		char cellValue = '-';
 		ArrayList<Character> fileInput = new ArrayList<Character>(256);
 		ArrayList<Character> initialDomain = new ArrayList<Character>(16);
 		
-		//reads the file and stores values in a string
+		//reads the file and stores values in an ArrayList of characters
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(sudokuPuzzle));
 			int c = 0;
@@ -65,14 +71,25 @@ public class SuperSudoku {
         	   //assign a group to each cell
         	   groupNumber = getGroupNumber(x, y);
         	   		
+        	   if(cellValue == '-')
+        		   sudokuCell[x][y] = new Cell(x, y, groupNumber, cellValue, initialDomain);
+        	   else
+        		   sudokuCell[x][y] = new Cell(x, y, groupNumber, cellValue, null);
         	   
-               sudokuCell[x][y] = new Cell(x, y, groupNumber, cellValue, initialDomain);
                pointer++;
            }
         }
+        
+        return initialDomain;
 	}
 	
-	private int getGroupNumber(int x, int y){
+	/**
+	 * Returns a group number based on the x,y coordinates of a cell for a 16x16 grid
+	 * @param x
+	 * @param y
+	 * @return groupNumber
+	 */
+	private int getGroupNumber(int x, int y){ 
 		int groupNumber = 0;
 		
 			if(y <= 3) {
@@ -119,6 +136,9 @@ public class SuperSudoku {
 		return groupNumber;
 	}
 	
+	/**
+	 * Returns a string representation of the value for each cell of a 16x16 grid
+	 */
 	public String toString(){
 		String gridString = "Puzzle: \n";
 		for (int y = 0; y < 16; y++) {
