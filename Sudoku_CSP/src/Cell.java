@@ -4,14 +4,18 @@ import java.util.ArrayList;
 public class Cell {
 	int x, y, group;
 	char value;
-	ArrayList<Character> domain;
+	ArrayList<Character> domain = new ArrayList<Character>();
 	
 	public Cell (int x, int y, int group, char value, ArrayList<Character> domain){
 		this.x = x;
 		this.y = y;
 		this.group = group;
 		this.value = value;
-		this.domain = domain;
+		
+		if(domain != null)
+			this.domain.addAll(domain);
+		else
+			this.domain = null;
 	}
 	
 	public char getValue (){
@@ -24,12 +28,13 @@ public class Cell {
 	public ArrayList<Character> getDomain(){
 		return domain;
 	}
-	public void removeFromDomain (char removeValue){
-		int index = this.domain.indexOf(removeValue);
-		this.domain.remove(index);
+	public void setDomain(ArrayList<Character> domain){
+		this.domain.clear();
+		this.domain.addAll(domain);
 	}
-	public void addToDomain (char value){
-		this.domain.add(value);
+	
+	public int getGroup () {
+		return group;
 	}
 	
 	public String toString () {

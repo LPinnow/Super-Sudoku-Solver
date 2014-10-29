@@ -3,17 +3,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class SuperSudoku {
 	public File sudokuPuzzle;
-	public Cell[][] sudokuCell;
-	public static ArrayList<Character> domainOfValues;
+	public Cell[][] sudokuGrid;
+	public ArrayList<Character> domainOfValues;
+	public int count;
 	
-	public SuperSudoku (File puzzle, Cell[][] sudokuCell) throws IOException{
+	public SuperSudoku (File puzzle, Cell[][] sudokuGrid, int count) throws IOException{
 		this.sudokuPuzzle = puzzle;
-		this.sudokuCell = sudokuCell;
-		domainOfValues = initializeGrid();
+		this.sudokuGrid = sudokuGrid;
+		this.domainOfValues = initializeGrid();
+		this.count = count;
 	}
 	
 	/**
@@ -71,10 +74,12 @@ public class SuperSudoku {
         	   //assign a group to each cell
         	   groupNumber = getGroupNumber(x, y);
         	   		
-        	   if(cellValue == '-')
-        		   sudokuCell[x][y] = new Cell(x, y, groupNumber, cellValue, initialDomain);
+        	   if(cellValue == '-'){
+        		   sudokuGrid[x][y] = new Cell(x, y, groupNumber, cellValue, initialDomain);
+        		   //System.out.println("Setting the cell (" + x + "," + y + ") to " + sudokuGrid[x][y].getDomain().toString());
+        	   }
         	   else
-        		   sudokuCell[x][y] = new Cell(x, y, groupNumber, cellValue, null);
+        		   sudokuGrid[x][y] = new Cell(x, y, groupNumber, cellValue, null);
         	   
                pointer++;
            }
@@ -136,14 +141,29 @@ public class SuperSudoku {
 		return groupNumber;
 	}
 	
+	public Cell[][] getSudokuGrid() {
+		return sudokuGrid;
+	}
+	
+	public ArrayList<Character> getDomainValues() {
+		return domainOfValues;
+	}
+	
+	public void setCount (int c){
+		this.count = c;
+	}
+	public int getCount() {
+		return count;
+	}
+	
 	/**
 	 * Returns a string representation of the value for each cell of a 16x16 grid
 	 */
-	public String toString(){
+	public String toString() {
 		String gridString = "Puzzle: \n";
 		for (int y = 0; y < 16; y++) {
            for (int x = 0; x < 16; x++) {
-        	   gridString += (sudokuCell[x][y].toString() + " ");
+        	   gridString += (sudokuGrid[x][y].toString() + " ");
         	   
         	   if(x == 15)
         		   gridString = gridString.concat("\n");
