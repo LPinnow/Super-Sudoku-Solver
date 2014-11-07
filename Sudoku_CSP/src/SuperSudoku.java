@@ -5,13 +5,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Initializes a 16x16 super sudoku board
+ * @author main
+ */
 public class SuperSudoku {
 	public File sudokuPuzzle;
 	public Cell[][] sudokuGrid;
 	public ArrayList<Character> domainOfValues;
 	public int count;
 	
+	
+	/**
+	 * Creates a 16x16 super sudoku board
+	 * Fills in the board based on assigned values in a file selected by the user
+	 * @param puzzle
+	 * @param sudokuGrid
+	 * @param count
+	 * @throws IOException
+	 */
 	public SuperSudoku (File puzzle, Cell[][] sudokuGrid, int count) throws IOException{
 		this.sudokuPuzzle = puzzle;
 		this.sudokuGrid = sudokuGrid;
@@ -70,16 +82,13 @@ public class SuperSudoku {
            for (int x = 0; x < 16; x++) {
         	   //read value in array list and set as the value for the current cell
         	   cellValue = fileInput.get(pointer);
-        	   
-        	   //assign a group to each cell
-        	   groupNumber = getGroupNumber(x, y);
         	   		
         	   if(cellValue == '-'){
-        		   sudokuGrid[x][y] = new Cell(x, y, groupNumber, cellValue, initialDomain);
+        		   sudokuGrid[x][y] = new Cell(x, y, cellValue, initialDomain);
         		   //System.out.println("Setting the cell (" + x + "," + y + ") to " + sudokuGrid[x][y].getDomain().toString());
         	   }
         	   else
-        		   sudokuGrid[x][y] = new Cell(x, y, groupNumber, cellValue, null);
+        		   sudokuGrid[x][y] = new Cell(x, y, cellValue, null);
         	   
                pointer++;
            }
@@ -88,67 +97,22 @@ public class SuperSudoku {
         return initialDomain;
 	}
 	
-	/**
-	 * Returns a group number based on the x,y coordinates of a cell for a 16x16 grid
-	 * @param x
-	 * @param y
-	 * @return groupNumber
-	 */
-	private int getGroupNumber(int x, int y){ 
-		int groupNumber = 0;
-		
-			if(y <= 3) {
-				if (x <= 3)
-					groupNumber = 1;
-				else if (x <= 7)
-					groupNumber = 2;
-				else if (x <= 11)
-					groupNumber = 3;
-				else
-					groupNumber = 4;
-			}
-			else if (y <= 7){
-				if (x <= 3)
-					groupNumber = 5;
-				else if (x <= 7)
-					groupNumber = 6;
-				else if (x <= 11)
-					groupNumber = 7;
-				else
-					groupNumber = 8;
-			}
-			else if (y <= 11){
-				if (x <= 3)
-					groupNumber = 9;
-				else if (x <= 7)
-					groupNumber = 10;
-				else if (x <= 11)
-					groupNumber = 11;
-				else
-					groupNumber = 12;
-			}
-			else {
-				if (x <= 3)
-					groupNumber = 13;
-				else if (x <= 7)
-					groupNumber = 14;
-				else if (x <= 11)
-					groupNumber = 15;
-				else
-					groupNumber = 16;
-			}
-		
-		return groupNumber;
-	}
-	
 	public Cell[][] getSudokuGrid() {
 		return sudokuGrid;
 	}
 	
+	/**
+	 * Returns a character array list containing all 16 possible values
+	 * @return domainOfValues
+	 */
 	public ArrayList<Character> getDomainValues() {
 		return domainOfValues;
 	}
 	
+	/**
+	 * Getter and Setter for the count of variable assignments made
+	 * @param c
+	 */
 	public void setCount (int c){
 		this.count = c;
 	}

@@ -6,10 +6,17 @@ public class Cell {
 	char value;
 	ArrayList<Character> domain = new ArrayList<Character>();
 	
-	public Cell (int x, int y, int group, char value, ArrayList<Character> domain){
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param group
+	 * @param value
+	 * @param domain
+	 */
+	public Cell (int x, int y, char value, ArrayList<Character> domain) {
 		this.x = x;
 		this.y = y;
-		this.group = group;
 		this.value = value;
 		
 		if(domain != null)
@@ -18,11 +25,19 @@ public class Cell {
 			this.domain = null;
 	}
 	
-	public char getValue (){
+	public char getValue() {
 		return value;
 	}
-	public void setValue(char newValue){
+	public void setValue(char newValue) {
 		this.value = newValue;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 	
 	public ArrayList<Character> getDomain(){
@@ -31,10 +46,6 @@ public class Cell {
 	public void setDomain(ArrayList<Character> domain){
 		this.domain.clear();
 		this.domain.addAll(domain);
-	}
-	
-	public int getGroup () {
-		return group;
 	}
 	
 	public String toString () {
